@@ -1,0 +1,39 @@
+services:
+  server:
+    build:
+      context: E:\DevOps\FYP-Investify\FYP-Investify-main\server
+    ports:
+      - "3001:3001"
+    networks:
+      - fyp_network
+    env_file:
+      - E:\DevOps\FYP-Investify\FYP-Investify-main\server\.env
+    depends_on:
+      - mongodb
+
+  client:
+    build:
+      context: E:\DevOps\FYP-Investify\FYP-Investify-main\client
+    ports:
+      - "3000:3000"
+    networks:
+      - fyp_network
+    env_file:
+      - E:\DevOps\FYP-Investify\FYP-Investify-main\client\.env
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - fyp_network
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  fyp_network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
